@@ -336,7 +336,7 @@
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls></MiscControls>
+              <MiscControls>-Wno-old-style-cast</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
               <IncludePath>./app/include;./FreeRTOS-Kernel/include;./FreeRTOS-Kernel/portable/GCC/ARM_CM3</IncludePath>
