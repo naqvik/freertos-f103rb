@@ -232,3 +232,4 @@ but in =kata1/code=.
    - named =freertos1=
    - using the stm32f103rb
    - with packages =CMSIS CORE= and =Device Startup=
+2. Set the debugger to stlink (default is ulink2), and do a global save.
