@@ -239,3 +239,26 @@ but in =kata1/code=.
    - code/freertos1.uvoptx
    - code/freertos1.uvprojx
 4. Commit: "Started with Keil, set debug probe to stlink"
+5. Now I want to add all the source files.  Surprisingly, it seems
+   that you can skip adding the /include/ files to Keil.  This is
+   currently absurdly awkward.
+
+   - I will first create source groups: =main= and add all the
+     application source files, under =kata1/code/app=
+     - simple.cpp
+
+   - Then create source group =freertos-gcc-arm-cm3= and add all the
+     source files from freertos, under =kata1/code/FreeRTOS-Kernel=
+     - =event_groups.c=
+     - =list.c=
+     - =queue.c=
+     - =stream_buffer.c=
+     - =tasks.c=
+     - =timers.c=
+     - (I skipped =croutine.c=)
+     - =portable/GCC/ARM_CM3/port.c=
+     - =portable/MemMang/heap_4.c=
+   - in Keil do a *save all*
+   - commit changes to .uvprojx and .uvoptx:
+     - message "Add sources to groups: main and freertos-gcc-arm-cm3"
+
