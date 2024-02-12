@@ -262,3 +262,12 @@ but in =kata1/code=.
    - commit changes to .uvprojx and .uvoptx:
      - message "Add sources to groups: main and freertos-gcc-arm-cm3"
 
+6. Time to compile this.  Oh I need to tell where the include files
+   are, relative to the project root.
+   - =./app/include=
+   - =./FreeRTOS-Kernel/include=
+   - =./FreeRTOS-Kernel/portable/GCC/ARM_CM3=
+   This can be done globally at the top level =Target 1= which I did
+   *not* bother to rename.  (This is configured under the =C/C++=)
+   tab.  Use the *Include Paths* dialog.)
+
