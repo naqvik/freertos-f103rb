@@ -227,3 +227,8 @@ git -C kata1 commit --all -m "Bare f103rb proj with no Keil stuff"
 At this point I need to create a Keil project.  Not at the top level,
 but in =kata1/code=.
 
+* Moving to the Keil environment
+1. I'll create a project
+   - named =freertos1=
+   - using the stm32f103rb
+   - with packages =CMSIS CORE= and =Device Startup=
