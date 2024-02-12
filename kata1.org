@@ -271,3 +271,33 @@ but in =kata1/code=.
    *not* bother to rename.  (This is configured under the =C/C++=)
    tab.  Use the *Include Paths* dialog.)
 
+7. It's now compiling but with many warnings.  Can reduce the warnings
+   by selectively disabling them.  We can disable warnings for a
+   directory or a single file, or for the entire project.
+   - First, for freertos, use /AC5-like/ warnings. The warnings drop
+     from an insane number like 76 to 4.  *Commit*: "Use AC5-like"
+
+     But a new error appeared:
+     - undefined symbol taskCHECK_FOR_STACK_OVERFLOW
+
+   - From the inconsistent behaviour of the Keil IDE, I suspect there
+     are race conditions in various tasks accessing the .uvprojx and
+     .uvoptx file.  Just conjecture.
+
+   - I added taskCHECK_FOR_STACK_OVERFLOW to FreeRTOSConfig.h, setting
+     it to 0 (which is supposed to be the default) and now it compiles
+     with no errors and three warnings.  *Commit*: "Disable
+     stackoverflow check"
+   - The warnings still present:
+     - =system_stm32f10x.c= :: -Wmissing-variable-declaration.  This
+       is isolated to that file, so I can disable it just for that
+       file.  *Commit*: "Disable warning: missing variable declaration"
+
+     - =portable.h= :: -Wold-style-cast.  This file is included by almost
+       everything in freertos.  So I'll disable the warning for all of
+       freertos.  *Commit*: Disable warning: old-style-cast.
+
+   - Now it builds with no warnings and no errors.
+     : code=716 RO-data=252 RW-data=0 ZI-data=1752
+     The problem is, it does nothing (empty main())
+
