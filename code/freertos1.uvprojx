@@ -526,7 +526,11 @@
       <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS">
         <package name="STM32F1xx_DFP" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="Keil" version="2.3.0"/>
         <targetInfos>
-          <targetInfo name="Target 1"/>
+          <targetInfo name="Target 1">
+            <c>
+              <MiscControls>-Wno-missing-variable-declarations</MiscControls>
+            </c>
+          </targetInfo>
         </targetInfos>
       </component>
     </components>
