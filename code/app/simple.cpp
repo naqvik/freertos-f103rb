@@ -84,4 +84,6 @@ int main() {
         nullptr      // optional out: task handle
         );
     configASSERT(retval==pdPASS);
+
+    blinkPA5(nullptr);
 }
