@@ -228,17 +228,20 @@ At this point I need to create a Keil project.  Not at the top level,
 but in =kata1/code=.
 
 * Moving to the Keil environment
-1. I'll create a project
+1. I'll create a project, under =code=
    - named =freertos1=
    - using the stm32f103rb
    - with packages =CMSIS CORE= and =Device Startup=
+
 2. Set the debugger to stlink (default is ulink2), and do a global save.
+
 3. Add
    - code/DebugConfig/
    - code/RTE/
    - code/freertos1.uvoptx
    - code/freertos1.uvprojx
 4. Commit: "Started with Keil, set debug probe to stlink"
+
 5. Now I want to add all the source files.  Surprisingly, it seems
    that you can skip adding the /include/ files to Keil.  This is
    currently absurdly awkward.
