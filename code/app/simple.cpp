@@ -85,5 +85,5 @@ int main() {
         );
     configASSERT(retval==pdPASS);
 
-    blinkPA5(nullptr);
+    vTaskStartScheduler();
 }

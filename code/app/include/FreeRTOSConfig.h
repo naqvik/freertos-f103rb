@@ -70,6 +70,9 @@ inline void vAssertCalled(char const * const filename, int line_num ) {
     (void) line_num;
 }
 #define configASSERT(x) if ( (x)==0 ) vAssertCalled(__FILE__, __LINE__)
+#define vPortSVCHandler      SVC_Handler
+#define xPortPendSVHandler   PendSV_Handler
+#define xPortSysTickHandler  SysTick_Handler
 
 /* Set the following definitions to 1 to include the API function, or zero
 to exclude the API function. */
