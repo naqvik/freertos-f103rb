@@ -55,7 +55,8 @@
    |------+------+-------+-------+-------+-------------------------|
 
 */
-int main() {
+static void blinkPA5(void * blah) {
+    (void) blah;
     // turn on clock for GPIOA
     *((uint32_t volatile *)0x40021018) |= 4;
 
@@ -72,4 +73,15 @@ int main() {
         for (int volatile counter = 0; counter < 1000000; ++counter) { }
     }
     //return 0;
+}
+int main() {
+    BaseType_t retval = xTaskCreate(
+        blinkPA5,    // task function
+        "my blinky", // task name
+        50,          // stack in words
+        nullptr,     // optional parameter
+        4,           // priority
+        nullptr      // optional out: task handle
+        );
+    configASSERT(retval==pdPASS);
 }

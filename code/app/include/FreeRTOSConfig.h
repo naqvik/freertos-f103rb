@@ -64,6 +64,13 @@
 #define configUSE_CO_ROUTINES       0
 #define configMAX_CO_ROUTINE_PRIORITIES ( 2 )
 
+/* Define to trap errors. */
+inline void vAssertCalled(char const * const filename, int line_num ) {
+    (void) filename;
+    (void) line_num;
+}
+#define configASSERT(x) if ( (x)==0 ) vAssertCalled(__FILE__, __LINE__)
+
 /* Set the following definitions to 1 to include the API function, or zero
 to exclude the API function. */
 
