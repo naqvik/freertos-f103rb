@@ -55,7 +55,7 @@
    |------+------+-------+-------+-------+-------------------------|
 
 */
-static void blinkPA5(void * blah) {
+[[noreturn]] static void blinkPA5(void * blah) {
     (void) blah;
     // turn on clock for GPIOA
     *((uint32_t volatile *)0x40021018) |= 4;
