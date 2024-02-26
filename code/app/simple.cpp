@@ -93,11 +93,13 @@ void gpio_pin_onoff(GPIO_TypeDef* base, uint32_t pin, bool on) {
     while (1) {
         // turn on PA5 LED
         gpio_pin_onoff(GPIOA, 5, 1);
-        for (int volatile counter = 0; counter < 1000000; ++counter) { }
+        vTaskDelay(450);
+        //for (int volatile counter = 0; counter < 1000000; ++counter) { }
 
         // turn off PA5 LED
         gpio_pin_onoff(GPIOA, 5, 0);
-        for (int volatile counter = 0; counter < 1000000; ++counter) { }
+        vTaskDelay(450);
+        //for (int volatile counter = 0; counter < 1000000; ++counter) { }
     }
     //return 0;
 }
@@ -112,11 +114,13 @@ void gpio_pin_onoff(GPIO_TypeDef* base, uint32_t pin, bool on) {
     while (1) {
         // turn on PA8 LED
         gpio_pin_onoff(GPIOA, 8, 1);
-        for (int volatile counter = 0; counter < 1000000; ++counter) { }
+        //for (int volatile counter = 0; counter < 1000000; ++counter) { }
+        vTaskDelay(250);
 
         // turn off PA8 LED
         gpio_pin_onoff(GPIOA, 8, 0);
-        for (int volatile counter = 0; counter < 1000000; ++counter) { }
+        vTaskDelay(250);
+        //for (int volatile counter = 0; counter < 1000000; ++counter) { }
     }
     //return 0;
 }
