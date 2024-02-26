@@ -55,6 +55,12 @@
    |------+------+-------+-------+-------+-------------------------|
 
 */
+void gpio_on(GPIO_TypeDef* base, uint32_t pin) {
+    configASSERT(base != nullptr);
+    configASSERT(pin < 16);
+    
+}
+
 [[noreturn]] static void blinkPA5(void * blah) {
     (void) blah;
     // turn on clock for GPIOA
