@@ -55,10 +55,17 @@
    |------+------+-------+-------+-------+-------------------------|
 
 */
-void gpio_on(GPIO_TypeDef* base, uint32_t pin) {
+using Reg32 = uint32_t volatile * const;
+
+void gpio_config_pin(GPIO_TypeDef* base, uint32_t pin, uint32_t bits4) {
     configASSERT(base != nullptr);
     configASSERT(pin < 16);
-    
+    configASSERT(bits4 < 15);  // must be a valid pattern from table
+
+    Reg32 CR =  (pin >= 8) ? &base->CRH : &base->CRL;
+    pin  = (pin >= 8) ? pin - 8 : pin;
+    *CR &= ~(0xfu << (pin*4));  // zero the nybble
+    *CR |= bits4 << (pin*4);    // assign bits4 to nybble
 }
 
 [[noreturn]] static void blinkPA5(void * blah) {
