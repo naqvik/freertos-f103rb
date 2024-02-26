@@ -56,6 +56,7 @@
 
 */
 using Reg32 = uint32_t volatile * const;
+void gpio_config_pin(GPIO_TypeDef* base, uint32_t pin, uint32_t bits4);
 
 void gpio_config_pin(GPIO_TypeDef* base, uint32_t pin, uint32_t bits4) {
     configASSERT(base != nullptr);
