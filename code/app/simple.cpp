@@ -104,5 +104,15 @@ int main() {
         );
     configASSERT(retval==pdPASS);
 
+    retval = xTaskCreate(
+        blinkPA8,    // task function
+        "blink PA8", // task name
+        50,          // stack in words
+        nullptr,     // optional parameter
+        4,           // priority
+        nullptr      // optional out: task handle
+        );
+    configASSERT(retval==pdPASS);
+
     vTaskStartScheduler();
 }
