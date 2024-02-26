@@ -5,6 +5,7 @@
 /* freertos includes */
 #include "FreeRTOS.h"
 #include "task.h"
+#include "semphr.h"
 
 /* HW-specific includes (move to bsp area) */
 #include "stm32f10x.h"
@@ -82,6 +83,19 @@ void gpio_pin_onoff(GPIO_TypeDef* base, uint32_t pin, bool on) {
     }
 }
 
+
+////////////////////////////////////////////////////////////////
+// Allow hand-off from task blinkPA8 to blinkPA5.  I want the PA8 task
+// to finish its work *before* the PA5 task runs.  This semaphore is
+// used to enforce this.  The PA8 task's period is 1000 ms, while
+// the PA5 task's period is 200 ms.  When a falling edge occurs on
+// PA8, the PA5 task is released, runs to completion, then
+// blocks until PA8 emits another falling edge.
+//
+//  PA5....................^^__................^^__.......... etc
+//  PA8__________^^^^^^^^^^__________^^^^^^^^^^__________^^^^^ etc
+static SemaphoreHandle_t gl_sequence_tasks_sem = nullptr;
+
 [[noreturn]] static void blinkPA5(void * blah) {
     (void) blah;
     // turn on clock for GPIOA
@@ -91,13 +105,15 @@ void gpio_pin_onoff(GPIO_TypeDef* base, uint32_t pin, bool on) {
     gpio_config_pin(GPIOA, 5u, 3u);
 
     while (1) {
+        xSemaphoreTake(gl_sequence_tasks_sem, portMAX_DELAY);  // wait
+
         // turn on PA5 LED
         gpio_pin_onoff(GPIOA, 5, 1);
-        vTaskDelay(450);
+        vTaskDelay(100);
 
         // turn off PA5 LED
         gpio_pin_onoff(GPIOA, 5, 0);
-        vTaskDelay(450);
+        vTaskDelay(100);
     }
     //return 0;
 }
@@ -112,11 +128,12 @@ void gpio_pin_onoff(GPIO_TypeDef* base, uint32_t pin, bool on) {
     while (1) {
         // turn on PA8 LED
         gpio_pin_onoff(GPIOA, 8, 1);
-        vTaskDelay(250);
+        vTaskDelay(500);
 
         // turn off PA8 LED
         gpio_pin_onoff(GPIOA, 8, 0);
-        vTaskDelay(250);
+        xSemaphoreGive(gl_sequence_tasks_sem);  // release PA5 task
+        vTaskDelay(500);
     }
     //return 0;
 }
@@ -140,6 +157,9 @@ int main() {
         nullptr      // optional out: task handle
         );
     configASSERT(retval==pdPASS);
+
+    gl_sequence_tasks_sem = xSemaphoreCreateBinary();
+    configASSERT(gl_sequence_tasks_sem != nullptr);
 
     vTaskStartScheduler();
 }
