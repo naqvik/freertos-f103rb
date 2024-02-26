@@ -56,6 +56,25 @@
    |------+------+-------+-------+-------+-------------------------|
 
 */
+
+/*  Added external yellow LED as follows:
+
+                          510
+    [CN9-8, PA8]----[1]--vvvvv-------[2]-------[LED]----[GND]
+
+    Resistor array, 9 RES 510 Ohm, 10SIP
+
+    +-----------------------+    [1]-----+-----+--...---+  Yes, this is a hack
+    |                       |            |     |        |  until I can find a
+    |   1 2 3 4 5 6 7 8 9   |            \     \        \  discrete 510 Ohm
+    +-+-+-+-+-+-+-+-+-+-+-+-+            /     /        /  resistor.
+        | | | | | | | | |             510\  510\ ... 510\
+                                         |     |        |
+                                        [2]   [3]      [9]
+ */
+
+
+
 using Reg32 = uint32_t volatile * const;
 void gpio_config_pin(GPIO_TypeDef* base, uint32_t pin, uint32_t bits4);
 
