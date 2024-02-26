@@ -62,7 +62,9 @@
     RCC->APB2ENR |= 1<<2;
 
     // configure PA5 to be output, push-pull, 50MHz
-    *((uint32_t volatile *)(0x40010800 + 0)) = 0x44344444;
+    //*((uint32_t volatile *)(0x40010800 + 0)) = 0x44344444;
+    GPIOA->CRL &= ~(0xfu << (5*4));
+    GPIOA->CRL |= 3u << (5*4);
 
     while (1) {
         // turn on PA5 LED
