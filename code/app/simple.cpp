@@ -79,8 +79,8 @@
     // turn on clock for GPIOA
     *((uint32_t volatile *)0x40021018) |= 4;
 
-    // configure PA5 to be output, push-pull, 50MHz
-    *((uint32_t volatile *)(0x40010800 + 0)) = 0x44344444;
+    // configure PA8 to be output, push-pull, 50MHz
+    *((uint32_t volatile *)(0x40010800 + 4)) = 0x44444443;
 
     while (1) {
         // turn on PA5 LED
