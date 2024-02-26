@@ -87,11 +87,11 @@
     *((uint32_t volatile *)(0x40010800 + 4)) = 0x44444443;
 
     while (1) {
-        // turn on PA5 LED
+        // turn on PA8 LED
         *((uint32_t volatile *)(0x40010800 + 0xc)) |=  1u<<8;
         for (int volatile counter = 0; counter < 1000000; ++counter) { }
 
-        // turn off PA5 LED
+        // turn off PA8 LED
         *((uint32_t volatile *)(0x40010800 + 0xc)) &= ~(1u<<8);
         for (int volatile counter = 0; counter < 1000000; ++counter) { }
     }
