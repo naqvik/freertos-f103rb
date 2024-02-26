@@ -391,3 +391,21 @@ int main() {
    - app/simple.cpp
    - EventRecorderStub.scvd (I suppose)
 
+9. what now?
+   - I started by making the body of main into a task, and calling
+     =xTaskCreate= on that task, without starting the scheduler.
+     This worked fine.
+
+   - Then I invoked the scheduler, and it hung on the SVC interrupt,
+     which had *not* been initialized.  Of course.  A search through
+     the freertos source looking for "SVC" showed several hits, all in
+     =arm_cm3/port.c=.  I ignore the "MPU" subdir.
+
+     Line 120-122 of =port.c= look like things that need to be placed
+     into the vector table.
+     #+begin_example
+     void xPortPendSVHandler( void ) __attribute__( ( naked ) );
+     void xPortSysTickHandler( void );
+     void vPortSVCHandler( void ) __attribute__( ( naked ) );
+     #+end_example
+
