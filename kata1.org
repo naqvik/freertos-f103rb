@@ -409,3 +409,101 @@ int main() {
      void vPortSVCHandler( void ) __attribute__( ( naked ) );
      #+end_example
 
+10. Lecture#12 [2024-02-14 Wed 14:30-15:45]
+    - the three function prototypes above were replaced (suggestion by
+      Daniil) with the standard names used in the Keil startup code:
+      #+begin_src C
+      SVC_Handler     // entry 11
+      PendSV_Handler  // entry 14
+      SysTick_Handler // entry 15
+      #+end_src
+
+      This was done with =#define= statements in =FreeRTOSConfig.h=.
+      Unfortunately I made a cut and paste error.  This mistake was
+      caused by me not carefully reading what I typed, and assuming
+      the order of the prototypes was in the ``natural'' order of 11,
+      14, and 15.  Imagine reading this in a code review!  It would be
+      spotted for sure.
+      #+begin_src C
+      #define xPortPendSVHandler  SVC_Handler
+      #define xPortSysTickHandler PendSV_Handler
+      #define vPortSVCHandler     SysTick_Handler
+      #+end_src
+
+      The correct code is below:
+      #+begin_src C
+      #define vPortSVCHandler     SVC_Handler
+      #define xPortPendSVHandler  PendSV_Handler
+      #define xPortSysTickHandler SysTick_Handler
+      #+end_src
+
+      Apparently Ashley noticed the problem, and was suggesting a way
+      to fix it but I was being exceptionally dim and misunderstood.
+
+      Anyway this bug consumed the rest of the lecture, because we got
+      hardfaults, and worked on trying to reverse engineer the
+      sequence of events that led to the hardfault.  I think this is
+      a good strategy when you have no /a priori/ knowledge of the
+      system or have exhausted all other, easier debugging strategies.
+      Anyway the group came up with some good ideas.
+
+      1. Using the map file we determined the stack and heap sizes and
+         were able to rule out stack overflow and probably heap
+         corruption (after doubling the heap size the problem was
+         unchanged).
+
+      2. We saw that the hardfault was a ``non-precise'' one, and
+         thought about ways of making it ``precise''.  That is, by
+         eliminating parallelism in the memory interfaces we would be
+         able to pinpoint where the fault actually happened
+
+      Whenever I accidentally inject a bug into a system, after I
+      solve it:
+      1. I always try to think deeply about the practices,
+         procedures, and assumptions that led to it.  These may be
+         personal or external (e.g. my employer, or my coworkers).
+
+      2. I also try to imagine what visible manifestations I would
+         /predict/ from the bug, and compare that with what I actually
+         saw.
+
+      3. And I reason about possible improvements to my process, or to
+         processes outside of my control, that could have avoided
+         creating the bug in the first place.  Caveat: modifying the
+         processes has to be done carefully, because it can be detrimental
+
+      Let me try to briefly go over these steps.
+      1. post-mortem analysis: what went wrong?
+         
+         - I cut and pasted some code, instead of manually typing it.
+         - I assumed the freertos code would treat the three ISRs in
+           numerically increasing order, because that's what I did.
+         - I was speaking to an audience, which adds a frisson of
+           extra alertness, and tends to push me to /fast/ instead of
+           /slow/ thinking.  This is why I didn't carefully read what
+           was there.
+         - I also didn't listen carefully to some suggestions
+
+      2. Prediction
+         - the PendSVC code was responding to an SVC exception (11), the
+           SysTick code was responding to a PendSVC exception (14), and the
+           SVC code was responding a SysTick exception (15).
+
+         - what would one predict in this situation?  Without
+           examining the freertos source, I can't really predict
+           anything, but I would have expected the system to hang very
+           early.  If the SVC isr was being called at 1 kHz instead of
+           the SysTick isr, that might be a clue.
+
+         - what happened?
+           - the code executed correctly up until the scheduler started.
+           - then it hard-faulted.
+
+         - How could I have seen it sooner?
+
+           - Practice: always try to get visibility into the system
+
+           - Example: add breakpoints to the beginning of the three
+             ISRs.  This would tell us which one occurred first.  And
+             maybe I would notice that the executing ISR's name was
+             incorrect (the code didn't match the function name)
