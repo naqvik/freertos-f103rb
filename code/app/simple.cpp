@@ -96,7 +96,7 @@
 int main() {
     BaseType_t retval = xTaskCreate(
         blinkPA5,    // task function
-        "my blinky", // task name
+        "blink PA5", // task name
         50,          // stack in words
         nullptr,     // optional parameter
         4,           // priority
