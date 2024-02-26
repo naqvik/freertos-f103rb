@@ -95,9 +95,7 @@ void gpio_config_pin(GPIO_TypeDef* base, uint32_t pin, uint32_t bits4) {
     RCC->APB2ENR |= 1<<2;
 
     // configure PA8 to be output, push-pull, 50MHz
-    //*((uint32_t volatile *)(0x40010800 + 4)) = 0x44444443;
-    GPIOA->CRH &= ~(0xfu << (0*4));
-    GPIOA->CRH |= 0x3u << (0*4);
+    gpio_config_pin(GPIOA, 8u, 3u);
 
     while (1) {
         // turn on PA8 LED
