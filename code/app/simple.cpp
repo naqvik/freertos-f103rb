@@ -69,6 +69,19 @@ void gpio_config_pin(GPIO_TypeDef* base, uint32_t pin, uint32_t bits4) {
     *CR |= bits4 << (pin*4);    // assign bits4 to nybble
 }
 
+void gpio_pin_onoff(GPIO_TypeDef* base, uint32_t pin, bool on);
+void gpio_pin_onoff(GPIO_TypeDef* base, uint32_t pin, bool on) {
+    // Require: pin must be already configured as output
+    configASSERT(pin < 16);
+
+    uint32_t mask = 1u << pin;
+    if (on) {
+        base->ODR |= mask;
+    } else {
+        base->ODR &= ~mask;
+    }
+}
+
 [[noreturn]] static void blinkPA5(void * blah) {
     (void) blah;
     // turn on clock for GPIOA
