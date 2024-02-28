@@ -94,11 +94,11 @@ void gpio_pin_onoff(GPIO_TypeDef* base, uint32_t pin, bool on) {
     // Require: pin must be already configured as output
     configASSERT(pin < 16);
 
-    uint32_t mask = 1u << pin;
+    //uint32_t mask = 1u << pin;
     if (on) {
-        base->ODR |= mask;
+        base->BSRR = 1u << pin;
     } else {
-        base->ODR &= ~mask;
+        base->BSRR = 1u << (pin+16u);
     }
 }
 
