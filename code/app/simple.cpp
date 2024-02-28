@@ -182,3 +182,20 @@ int main() {
 
     vTaskStartScheduler();
 }
+
+void vAssertCalled(char const * const filename, int line_num) {
+{
+    uint32_t volatile ul = 0u;
+
+    (void) filename;
+    (void) line_num;
+	taskENTER_CRITICAL();
+	{
+		// Set ul to a non-zero value using the debugger to step out
+		// of this function.
+		while( ul == 0 ) {
+			portNOP();
+		}
+	}
+	taskEXIT_CRITICAL();
+}

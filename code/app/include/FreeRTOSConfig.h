@@ -65,10 +65,8 @@
 #define configMAX_CO_ROUTINE_PRIORITIES ( 2 )
 
 /* Define to trap errors. */
-inline void vAssertCalled(char const * const filename, int line_num ) {
-    (void) filename;
-    (void) line_num;
-}
+void vAssertCalled(char const * const filename, int line_num );
+
 #define configASSERT(x) if ( (x)==0 ) vAssertCalled(__FILE__, __LINE__)
 #define vPortSVCHandler      SVC_Handler
 #define xPortPendSVHandler   PendSV_Handler
