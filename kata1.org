@@ -228,21 +228,21 @@ At this point I need to create a Keil project.  Not at the top level,
 but in =kata1/code=.
 
 * Moving to the Keil environment
-1. I'll create a project, under =code=
+** 1. I'll create a project, under =code=
    - named =freertos1=
    - using the stm32f103rb
    - with packages =CMSIS CORE= and =Device Startup=
 
-2. Set the debugger to stlink (default is ulink2), and do a global save.
+** 2. Set the debugger to stlink (default is ulink2), and do a global save.
 
-3. Add
+** 3. Add
    - code/DebugConfig/
    - code/RTE/
    - code/freertos1.uvoptx
    - code/freertos1.uvprojx
-4. Commit: "Started with Keil, set debug probe to stlink"
+** 4. Commit: "Started with Keil, set debug probe to stlink"
 
-5. Now I want to add all the source files.  Surprisingly, it seems
+** 5. Now I want to add all the source files.  Surprisingly, it seems
    that you can skip adding the /include/ files to Keil.  This is
    currently absurdly awkward.
 
@@ -265,7 +265,7 @@ but in =kata1/code=.
    - commit changes to .uvprojx and .uvoptx:
      - message "Add sources to groups: main and freertos-gcc-arm-cm3"
 
-6. Time to compile this.  Oh I need to tell where the include files
+** 6. Time to compile this.  Oh I need to tell where the include files
    are, relative to the project root.
    - =./app/include=
    - =./FreeRTOS-Kernel/include=
@@ -274,7 +274,7 @@ but in =kata1/code=.
    *not* bother to rename.  (This is configured under the =C/C++=)
    tab.  Use the *Include Paths* dialog.)
 
-7. It's now compiling but with many warnings.  Can reduce the warnings
+** 7. It's now compiling but with many warnings.  Can reduce the warnings
    by selectively disabling them.  We can disable warnings for a
    directory or a single file, or for the entire project.
    - First, for freertos, use /AC5-like/ warnings. The warnings drop
@@ -304,7 +304,7 @@ but in =kata1/code=.
      : code=716 RO-data=252 RW-data=0 ZI-data=1752
      The problem is, it does nothing (empty main())
 
-8. Last, I can replace the empty main with this content
+** 8. Last, I can replace the empty main with this content
    #+begin_example
 /** A simple app, to demonstrate freertos */
 
@@ -391,7 +391,7 @@ int main() {
    - app/simple.cpp
    - EventRecorderStub.scvd (I suppose)
 
-9. what now?
+** 9. what now?
    - I started by making the body of main into a task, and calling
      =xTaskCreate= on that task, without starting the scheduler.
      This worked fine.
@@ -409,7 +409,7 @@ int main() {
      void vPortSVCHandler( void ) __attribute__( ( naked ) );
      #+end_example
 
-10. Lecture#12 [2024-02-14 Wed 14:30-15:45]
+** 10. Lecture#12 [2024-02-14 Wed 14:30-15:45]
     - the three function prototypes above were replaced (suggestion by
       Daniil) with the standard names used in the Keil startup code:
       #+begin_src C
