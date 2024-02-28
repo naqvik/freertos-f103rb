@@ -507,3 +507,9 @@ int main() {
              ISRs.  This would tell us which one occurred first.  And
              maybe I would notice that the executing ISR's name was
              incorrect (the code didn't match the function name)
+** 11. Lecture#13 [2024-02-26 Mon 14:30-15:45]
+    - Add another blinky to the mix: D7, which is PA8, so I'll name it
+      blinkPA8().
+
+    - I've used a binary semaphore to force the sequence PA5 -> PA8,
+      or /Green/ -> /Yellow/.  Does this mean I've removed all race conditions?
