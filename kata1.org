@@ -532,3 +532,18 @@ int main() {
 
   3. /Change state property/: At least one of the control flows must
      alter the state of the race object.
+
+- Question from last lecture: using a semaphore to sequence the two
+  blinky tasks: does that eliminate race conditions?
+  - discuss
+
+  - went over a sequence diagram on the board to show that there's
+    still a race condition, caused by accessing the shared register
+    ODR of PortA.
+
+  - Fix is to use the BSRR, which allows single bits (connected to a
+    pin, in this case) to be set/reset without touching other bits.
+    Remember that race conditions require /shared mutable state/ to
+    exist.  This prerequisite is expressed in a more formal way in the
+    three conditions above, taken from Seacord2013: ``Secure Coding in
+    C and C++''.
