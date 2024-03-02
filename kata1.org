@@ -512,7 +512,8 @@ int main() {
       blinkPA8().
 
     - I've used a binary semaphore to force the sequence PA5 -> PA8,
-      or /Green/ -> /Yellow/.  Does this mean I've removed all race conditions?
+      or /Green/ -> /Yellow/.  Does this mean I've removed all race
+      conditions?
 ** 12. Lecture#14 [2024-02-28 Wed 11:00]
 - Race Condition: defined in Seacord2013, §7.4:
 
