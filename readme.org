@@ -1,0 +1,11 @@
+* Tiny freertos app from scratch
+
+This targets the nucleo-f103rb board.
+
+I'm just using this project to illustrate
+- some principles of real time
+- error handling
+- incrementally improving design
+- testing
+
+Currently this is using the Keil MDK-lite environment.
