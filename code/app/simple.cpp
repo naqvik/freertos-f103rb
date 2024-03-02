@@ -183,18 +183,38 @@ int main() {
     vTaskStartScheduler();
 }
 
-void vAssertCalled(char const * const filename, int line_num) {
-    uint32_t volatile ul = 0u;
+/**
+   I changed the original function body (which did a busy-wait on a
+   global variable 'ul') to a circular buffer that stores the filename
+   and line number where the assertion was triggered.
 
-    (void) filename;
-    (void) line_num;
-	taskENTER_CRITICAL();
-	{
-		// Set ul to a non-zero value using the debugger to step out
-		// of this function.
-		while( ul == 0 ) {
-			portNOP();
-		}
-	}
-	taskEXIT_CRITICAL();
+   Now you can, inside the debugger, view the entries in the buffer
+   and see the line numbers and files where assertions were triggered.
+
+   The function now simply returns instead of spinning, which is
+   undesireable for certain errors.  Need to add behaviour: spinlock
+   on 'emergencies' and just update cbuffer on lower-level conditions.
+ */
+void vAssertCalled(char const * const filename, int line_num) {
+    // FIXME assertmutex take
+
+    struct AssertionError {
+        char const * filename;
+        int32_t lin_num;
+    };
+    static uint32_t const BUF_SIZE = 32;
+    static struct CBuffer {
+        AssertionError buffer[BUF_SIZE];
+        uint32_t head = 0;
+        uint32_t tail = 0;
+        void insert(AssertionError & ae) {
+            buffer[tail] = ae;
+            tail = (tail+1) % BUF_SIZE;
+        }
+    } cbuffer;
+
+    AssertionError ae{filename, line_num};
+    cbuffer.insert(ae);
+
+    // FIXME assertmutex give
 }
