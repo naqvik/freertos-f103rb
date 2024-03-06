@@ -57,22 +57,24 @@
 
 */
 
-/*  Added external yellow LED as follows:
+/*  Added external LEDs as follows:
 
                                   510
-    [CN9-8, PA8]--[LED]--[2]-----vvvvv-----[1]---[GND]
+    [D6, PB10]--[RedLED]--[2]-----vvvvv-----[1]---[GND]
+    [D7,  PA8]--[YlwLED]--[4]-----vvvvv-----[1]---[GND]
+    [D8,  PA9]--[GrnLED]--[6]-----vvvvv-----[1]---[GND]
+    [D10, PB6]--[BluLED]--[8]-----vvvvv-----[1]---[GND]
 
-    Resistor array, 9 RES 510 Ohm, 10SIP
-
-    +-----------------------+    [1]-----+-----+--...---+  Yes, this is a hack
-    |  CTSK1949770101511P   |            |     |        |  until I can find a
-    |   1 2 3 4 5 6 7 8 9   |            \     \        \  discrete 510 Ohm
-    +-+-+-+-+-+-+-+-+-+-+-+-+            /     /        /  resistor.
+    Resistor array, 9 RES
+    510 Ohm, 10SIP
+    +-----------------------+    [1]-----+-----+--...---+
+    |  CTSK1949770101511P   |            |     |        |
+    |   1 2 3 4 5 6 7 8 9   |            \     \        \
+    +-+-+-+-+-+-+-+-+-+-+-+-+            /     /        /
         | | | | | | | | |             510\  510\ ... 510\
         1 2 3 4 5 6 7 8 9                |     |        |
                                         [2]   [3]      [9]
  */
-
 
 
 using Reg32 = uint32_t volatile * const;
