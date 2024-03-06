@@ -140,11 +140,16 @@ static SemaphoreHandle_t gl_sequence_tasks_sem = nullptr;
 }
 [[noreturn]] static void displayPattern(void * blah) {
     (void) blah;
-    // turn on clock for GPIOA
-    RCC->APB2ENR |= 1<<2;
+    // turn on clock for GPIOA and GPIOB
+    RCC->APB2ENR |= 1u<<2;
+    RCC->APB2ENR |= 1u<<3;
 
-    // configure PA8 to be output, push-pull, 50MHz
+    // configure four pins to be output, push-pull, 50MHz
+    // PB10: Red, PA8: Yellow, PA9: Green, PB6: Blue
+    gpio_config_pin(GPIOB, 10u, 3u);
     gpio_config_pin(GPIOA, 8u, 3u);
+    gpio_config_pin(GPIOA, 9u, 3u);
+    gpio_config_pin(GPIOB, 6u, 3u);
 
     while (1) {
         // turn on PA8 LED
