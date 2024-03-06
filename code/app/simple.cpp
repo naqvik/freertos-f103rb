@@ -138,7 +138,7 @@ static SemaphoreHandle_t gl_sequence_tasks_sem = nullptr;
     }
     //return 0;
 }
-[[noreturn]] static void blinkPA8(void * blah) {
+[[noreturn]] static void displayPattern(void * blah) {
     (void) blah;
     // turn on clock for GPIOA
     RCC->APB2ENR |= 1<<2;
@@ -170,7 +170,7 @@ int main() {
     configASSERT(retval==pdPASS);
 
     retval = xTaskCreate(
-        blinkPA8,    // task function
+        displayPattern,    // task function
         "blink PA8", // task name
         50,          // stack in words
         nullptr,     // optional parameter
