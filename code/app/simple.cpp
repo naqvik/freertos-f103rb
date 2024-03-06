@@ -154,27 +154,27 @@ static SemaphoreHandle_t gl_sequence_tasks_sem = nullptr;
     struct {
         GPIO_TypeDef* gpio;
         uint32_t pin;
-        uint32_t mode;
+        uint32_t onoff;
     } seq[]  = {
-        {GPIOB, 10, 1},
-        {GPIOB, 10, 0},
-        {GPIOA, 8, 1},
-        {GPIOA, 8, 0},
-        {GPIOA, 9, 1},
-        {GPIOA, 9, 0},
-        {GPIOB, 4, 1},
-        {GPIOB, 4, 0},
+        {GPIOB, 10, 1},  // turn on PB10
+        {GPIOB, 10, 0},  // turn off PB10
+        {GPIOA, 8, 1},   // turn on PA8 LED
+        {GPIOA, 8, 0},   // turn off PA8 LED
+        {GPIOA, 9, 1},   // turn on PA9 LED
+        {GPIOA, 9, 0},   // turn off PA9 LED
+        {GPIOB, 6, 1},   // turn on PB4 LED
+        {GPIOB, 6, 0},   // turn off PB4 LED
     };
 
     while (1) {
-        // turn on PA8 LED
-        gpio_pin_onoff(GPIOA, 8, 1);
-        vTaskDelay(500);
+        for (uint32_t i=0; i < 8; ++i) {
+            auto gpio = seq[i].gpio;
+            auto pin = seq[i].pin;
+            auto onoff = seq[i].onoff;
 
-        // turn off PA8 LED
-        gpio_pin_onoff(GPIOA, 8, 0);
-        xSemaphoreGive(gl_sequence_tasks_sem);  // release PA5 task
-        vTaskDelay(500);
+            gpio_pin_onoff(gpio, pin, onoff);
+            vTaskDelay(500);
+        }
     }
     //return 0;
 }
