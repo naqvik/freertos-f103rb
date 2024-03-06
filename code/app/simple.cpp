@@ -151,6 +151,21 @@ static SemaphoreHandle_t gl_sequence_tasks_sem = nullptr;
     gpio_config_pin(GPIOA, 9u, 3u);
     gpio_config_pin(GPIOB, 6u, 3u);
 
+    struct {
+        GPIO_TypeDef* gpio;
+        uint32_t pin;
+        uint32_t mode;
+    } seq[]  = {
+        {GPIOB, 10, 1},
+        {GPIOB, 10, 0},
+        {GPIOA, 8, 1},
+        {GPIOA, 8, 0},
+        {GPIOA, 9, 1},
+        {GPIOA, 9, 0},
+        {GPIOB, 4, 1},
+        {GPIOB, 4, 0},
+    };
+
     while (1) {
         // turn on PA8 LED
         gpio_pin_onoff(GPIOA, 8, 1);
