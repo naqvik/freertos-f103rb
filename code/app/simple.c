@@ -1,6 +1,8 @@
 /** A simple app, to demonstrate freertos */
 
 /* standard includes */
+#include <stdio.h>
+#include <stdbool.h>
 
 /* freertos includes */
 #include "FreeRTOS.h"
@@ -77,11 +79,11 @@
  */
 
 
-using Reg32 = uint32_t volatile * const;
+typedef uint32_t volatile * const Reg32;
 void gpio_config_pin(GPIO_TypeDef* base, uint32_t pin, uint32_t bits4);
 
 void gpio_config_pin(GPIO_TypeDef* base, uint32_t pin, uint32_t bits4) {
-    configASSERT(base != nullptr);
+    configASSERT(base != ((void*)0));
     configASSERT(pin < 16);
     configASSERT(bits4 < 15);  // must be a valid pattern from table
 
@@ -115,9 +117,9 @@ void gpio_pin_onoff(GPIO_TypeDef* base, uint32_t pin, bool on) {
 //
 //  PA5....................^^__................^^__.......... etc
 //  PA8__________^^^^^^^^^^__________^^^^^^^^^^__________^^^^^ etc
-static SemaphoreHandle_t gl_sequence_tasks_sem = nullptr;
+static SemaphoreHandle_t gl_sequence_tasks_sem = ((void*)0);
 
-[[noreturn]] static void blinkPA5(void * blah) {
+__attribute__((noreturn)) static void blinkPA5(void * blah) {
     (void) blah;
     // turn on clock for GPIOA
     RCC->APB2ENR |= 1<<2;
@@ -138,7 +140,7 @@ static SemaphoreHandle_t gl_sequence_tasks_sem = nullptr;
     }
     //return 0;
 }
-[[noreturn]] static void displayPattern(void * blah) {
+__attribute__((noreturn)) static void displayPattern(void * blah) {
     (void) blah;
     // turn on clock for GPIOA and GPIOB
     RCC->APB2ENR |= 1u<<2;
@@ -168,9 +170,9 @@ static SemaphoreHandle_t gl_sequence_tasks_sem = nullptr;
 
     while (1) {
         for (uint32_t i=0; i < 8; ++i) {
-            auto gpio = seq[i].gpio;
-            auto pin = seq[i].pin;
-            auto onoff = seq[i].onoff;
+            GPIO_TypeDef* gpio = seq[i].gpio;
+            uint32_t pin = seq[i].pin;
+            uint32_t onoff = seq[i].onoff;
 
             gpio_pin_onoff(gpio, pin, onoff);
             vTaskDelay(500);
@@ -183,9 +185,9 @@ int main() {
         blinkPA5,    // task function
         "blink PA5", // task name
         50,          // stack in words
-        nullptr,     // optional parameter
+        ((void*)0),     // optional parameter
         4,           // priority
-        nullptr      // optional out: task handle
+        ((void*)0)      // optional out: task handle
         );
     configASSERT(retval==pdPASS);
 
@@ -193,16 +195,38 @@ int main() {
         displayPattern,    // task function
         "blink PA8", // task name
         50,          // stack in words
-        nullptr,     // optional parameter
+        ((void*)0),     // optional parameter
         4,           // priority
-        nullptr      // optional out: task handle
+        ((void*)0)      // optional out: task handle
         );
     configASSERT(retval==pdPASS);
 
     gl_sequence_tasks_sem = xSemaphoreCreateBinary();
-    configASSERT(gl_sequence_tasks_sem != nullptr);
+    configASSERT(gl_sequence_tasks_sem != ((void*)0));
 
     vTaskStartScheduler();
+}
+
+typedef struct ae {
+    char const * filename;
+    int32_t lin_num;
+} AssertionError;
+
+static uint32_t const BUF_SIZE = 32;
+//static AssertionError buffer[BUF_SIZE] = {0};
+
+
+typedef struct cb {
+    AssertionError buffer[BUF_SIZE];
+    uint32_t head;
+    uint32_t tail;
+} CBuffer;
+
+static CBuffer cbuffer = { buffer, 0, 0};
+
+void cbuffer_insert(AssertionError const* ae) {
+    cbuffer.buffer[cbuffer.tail] = *ae;
+    cbuffer.tail = (cbuffer.tail+1) % BUF_SIZE;
 }
 
 /**
@@ -220,23 +244,8 @@ int main() {
 void vAssertCalled(char const * const filename, int line_num) {
     // FIXME assertmutex take
 
-    struct AssertionError {
-        char const * filename;
-        int32_t lin_num;
-    };
-    static uint32_t const BUF_SIZE = 32;
-    static struct CBuffer {
-        AssertionError buffer[BUF_SIZE];
-        uint32_t head = 0;
-        uint32_t tail = 0;
-        void insert(AssertionError & ae) {
-            buffer[tail] = ae;
-            tail = (tail+1) % BUF_SIZE;
-        }
-    } cbuffer;
-
-    AssertionError ae{filename, line_num};
-    cbuffer.insert(ae);
+    AssertionError ae = {filename, line_num};
+    cbuffer_insert(ae);
 
     // FIXME assertmutex give
 }
