@@ -9,6 +9,7 @@
 #include <stm32f10x.h>
 
 // prototypes
+#include "serial-io.h"
 static void sendByte (char c);
 static char getByte (void);
 
