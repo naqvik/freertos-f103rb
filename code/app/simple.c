@@ -1,3 +1,4 @@
+// -*- c++ -*-
 /** A simple app, to demonstrate freertos */
 
 /* standard includes */
