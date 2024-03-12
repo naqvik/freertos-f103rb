@@ -246,7 +246,7 @@ void vAssertCalled(char const * const filename, int line_num) {
     // FIXME assertmutex take
 
     AssertionError ae = {filename, line_num};
-    cbuffer_insert(ae);
+    cbuffer_insert(&ae);
 
     // FIXME assertmutex give
 }
