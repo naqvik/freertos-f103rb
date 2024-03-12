@@ -219,8 +219,6 @@ typedef struct ae {
 } AssertionError;
 
 static uint32_t const BUF_SIZE = 32;
-//static AssertionError buffer[BUF_SIZE] = {0};
-
 
 typedef struct cb {
     AssertionError buffer[BUF_SIZE];
