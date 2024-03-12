@@ -10,6 +10,9 @@
 #include "task.h"
 #include "semphr.h"
 
+// project includes
+#include "serial-io.h"
+
 /* HW-specific includes (move to bsp area) */
 #include "stm32f10x.h"
 
@@ -182,6 +185,7 @@ __attribute__((noreturn)) static void displayPattern(void * blah) {
     //return 0;
 }
 int main() {
+    openUsart2();
     BaseType_t retval = xTaskCreate(
         blinkPA5,    // task function
         "blink PA5", // task name
@@ -202,6 +206,7 @@ int main() {
         );
     configASSERT(retval==pdPASS);
 
+    printf("hello\n");
     gl_sequence_tasks_sem = xSemaphoreCreateBinary();
     configASSERT(gl_sequence_tasks_sem != ((void*)0));
 
