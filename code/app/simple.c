@@ -230,6 +230,8 @@ typedef struct cb {
 
 static CBuffer cbuffer = {0};
 
+// prototype
+void cbuffer_insert(AssertionError const* ae);
 
 void cbuffer_insert(AssertionError const* ae) {
     cbuffer.buffer[cbuffer.tail] = *ae;
