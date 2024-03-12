@@ -228,7 +228,8 @@ typedef struct cb {
     uint32_t tail;
 } CBuffer;
 
-static CBuffer cbuffer = { buffer, 0, 0};
+static CBuffer cbuffer = {0};
+
 
 void cbuffer_insert(AssertionError const* ae) {
     cbuffer.buffer[cbuffer.tail] = *ae;
