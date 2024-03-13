@@ -242,23 +242,18 @@ void cbuffer_insert(AssertionError const* ae) {
     cbuffer.tail = (cbuffer.tail+1) % BUF_SIZE;
 }
 
-/**
-   I changed the original function body (which did a busy-wait on a
-   global variable 'ul') to a circular buffer that stores the filename
-   and line number where the assertion was triggered.
-
-   Now you can, inside the debugger, view the entries in the buffer
-   and see the line numbers and files where assertions were triggered.
-
-   The function now simply returns instead of spinning, which is
-   undesireable for certain errors.  Need to add behaviour: spinlock
-   on 'emergencies' and just update cbuffer on lower-level conditions.
- */
 void vAssertCalled(char const * const filename, int line_num) {
-    // FIXME assertmutex take
+    uint32_t volatile ul = 0u;
 
-    AssertionError ae = {filename, line_num};
-    cbuffer_insert(&ae);
+    (void) filename;
+    (void) line_num;
+    taskENTER_CRITICAL();
 
-    // FIXME assertmutex give
+    // Set ul to a non-zero value using the debugger to step out
+    // of this function.
+    while( ul == 0 ) {
+        portNOP();
+    }
+
+    taskEXIT_CRITICAL();
 }
