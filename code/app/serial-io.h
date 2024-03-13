@@ -6,8 +6,6 @@
 
 #include <stdio.h>
 
-int fputc(int c, FILE *stream);
-int fgetc(FILE *stream);
 void openUsart2(void);
 
 #endif //SERIAL_IO_H
