@@ -3,6 +3,7 @@
 
 /* standard includes */
 #include <stdio.h>
+#include <ctype.h>              // for isprint()
 #include <stdbool.h>
 
 /* freertos includes */
@@ -173,6 +174,12 @@ __attribute__((noreturn)) static void displayPattern(void * blah) {
     };
 
     while (1) {
+        printf("Press any key to initiate one cycle: ");
+        int c = fgetc(stdin);
+        if (isprint(c))
+            printf("\nKey pressed: %c (0x%02x)\n", c, c);
+        else
+            printf("\nNon-printable key pressed: 0x%02x\n", c);
         for (uint32_t i=0; i < 8; ++i) {
             GPIO_TypeDef* gpio = seq[i].gpio;
             uint32_t pin = seq[i].pin;
@@ -206,7 +213,6 @@ int main() {
         );
     configASSERT(retval==pdPASS);
 
-    printf("hello\n");
     gl_sequence_tasks_sem = xSemaphoreCreateBinary();
     configASSERT(gl_sequence_tasks_sem != ((void*)0));
 
