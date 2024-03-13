@@ -462,6 +462,16 @@
               <FileType>1</FileType>
               <FilePath>.\app\simple.c</FilePath>
             </File>
+            <File>
+              <FileName>widget.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\app\widget.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio-drivers.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\app\gpio-drivers.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
