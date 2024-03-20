@@ -16,6 +16,7 @@
 #include "widget.h"
 #include "gpio-drivers.h"       // FIXME: should not need this here
 
+#include "bsp.h"
 
 ////////////////////////////////////////////////////////////////
 // Allow hand-off from task blinkPA8 to blinkPA5.  I want the PA8 task
