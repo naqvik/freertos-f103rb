@@ -35,31 +35,6 @@ char getByte (void)
 }
 
 
-//#include "bsp.h"
-
-// int main() {
-
-
-//     printf("Enter a character to continue: ");
-//     int c = fgetc(stdin);
-//     printf("%c\n", c);
-    
-//     printf("SystemCoreClock: %d\n", SystemCoreClock);
-//     while (1) {
-
-//         // GPIOA->ODR |= 1u<<5;        // turn on green LED at PA5
-//         printf("YLW-PA8: off\n");
-//         GPIOA->ODR &= ~(1u<<8);     // turn off yellow LED at PA8
-//         delay(2*1000*1000);
-
-//         // GPIOA->ODR &= ~(1u<<5);     // turn off green LED at PA5
-//         printf("YLW-PA8: on\n");
-//         GPIOA->ODR |= 1u<<8;        // turn on yellow LED at PA8
-//         delay(2*1000*1000);
-//     }
-
-// }
-
 int fgetc(FILE * stream) {
     (void)stream;
     char byte = getByte();
