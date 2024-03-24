@@ -5,6 +5,25 @@
 #define BSP_H
 
 #include <stdint.h>
+#include <stm32f10x.h>
+
 void NVIC_set_enable(uint32_t irq_num);
 
+// clock enabling-disabling functions can be inlined
+
+void enable_afio_clk(void) {
+    RCC->APB2ENR |= (1u << 0); // bits[0] = AFIOEN <- 1
+}
+void enable_gpioa_clk(void) {
+    RCC->APB2ENR |= (1u << 2); // bits[2] = IOPAEN <- 1
+}
+void enable_gpiob_clk(void) {
+    RCC->APB2ENR |= (1u << 3); // bits[3] = IOPAEN <- 1
+}
+void enable_gpioc_clk(void) {
+    RCC->APB2ENR |= (1u << 4); // bits[4] = IOPCEN <- 1
+}
+void enable_gpiod_clk(void) {
+    RCC->APB2ENR |= (1u << 5); // bits[5] = IOPCEN <- 1
+}
 #endif // BSP_H
