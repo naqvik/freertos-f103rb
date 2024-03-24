@@ -6,12 +6,21 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>     // for abort() used by __aeabi_assert()
 #include <stm32f10x.h>
 
 // prototypes
 #include "serial-io.h"
 static void sendByte (char c);
 static char getByte (void);
+
+__attribute__((noreturn))
+/** Implement standard ARM assert function.
+
+    This function is not already linked in because I'm using microlib, which
+    does not provide it.
+ */
+void __aeabi_assert(char const *expr, char const * filename, int line);
 
 // implement basic functions needed to retarget std C I/O
 static void sendByte (char c)
@@ -99,4 +108,12 @@ void openUsart2(void)
         | 0u<<12            // bits[12], M=0, set 0-8-n
         | 1u<<13            // bits[13], UE=1, usart enable
         | 0u<<14;           // bits[15:14]=00, reserved
+}
+
+__attribute__((noreturn))
+void __aeabi_assert(char const *expr, char const * filename, int line) {
+    fprintf(stderr, "** assertion failed: \"%s\", file: \"%s\":%d",
+            expr, filename, line);
+
+    abort();
 }
