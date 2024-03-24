@@ -13,7 +13,8 @@
 static void sendByte (char c);
 static char getByte (void);
 
-void sendByte (char c)
+// implement basic functions needed to retarget std C I/O
+static void sendByte (char c)
 {
     if (c == '\n') {  // insert CR before each NL
         while ((USART2->SR & 1u<<7)==0) {  // spin while TDR is occupied
@@ -26,7 +27,7 @@ void sendByte (char c)
     USART2->DR = c;
 }
 
-char getByte (void)
+static char getByte (void)
 {
     // while the read data register is empty, spin
     while ((USART2->SR & 1u<<5)==0) {
@@ -34,6 +35,7 @@ char getByte (void)
     return (char)USART2->DR;
 }
 
+// Implement minimal functions required to retarget under Keil's microlib
 
 int fgetc(FILE * stream) {
     (void)stream;
@@ -47,8 +49,17 @@ int fputc(int c, FILE * stream) {
     return c;
 }
 
+/** This function is to be called exactly once, generally at the start of main.
+
+    This is the only public function defined here, and the only one
+    present in the associated header file serial-io.h.
+
+    Note: this implementation assumes the use of Keil's Microlib
+ */
 void openUsart2(void)
 {
+    // We are using USART2, which is the virtual com port on the f103rb
+    // and which uses (by default) PA2 (Tx) and PA3 (Rx).
     RCC->APB2ENR |= 1u<<2; // bits[2]=IOPAEN=1, Enable clock for GPIOA
     RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;
     RCC->APB1ENR |= 1u<<17; // bits[17]=usart2en=1, enable usart2
