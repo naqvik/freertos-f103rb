@@ -4,6 +4,7 @@
 /* standard includes */
 #include <stdio.h>
 #include <ctype.h>              // for isprint()
+#include <assert.h>
 #include <stdbool.h>
 
 /* freertos includes */
@@ -30,7 +31,8 @@
 //  PA8__________^^^^^^^^^^__________^^^^^^^^^^__________^^^^^ etc
 static SemaphoreHandle_t gl_sequence_tasks_sem = ((void*)0);
 
-__attribute__((noreturn)) static void blinkPA5(void * blah) {
+__attribute__((noreturn))
+static void blinkPA5(void * blah) {
     (void) blah;
     // turn on clock for GPIOA
     RCC->APB2ENR |= 1<<2;
@@ -51,7 +53,8 @@ __attribute__((noreturn)) static void blinkPA5(void * blah) {
     }
     //return 0;
 }
-__attribute__((noreturn)) static void displayPattern(void * blah) {
+__attribute__((noreturn))
+static void displayPattern(void * blah) {
     (void) blah;
 
     configureWidget();
@@ -71,7 +74,7 @@ int main() {
         4,           // priority
         ((void*)0)      // optional out: task handle
         );
-    configASSERT(retval==pdPASS);
+    assert(retval!=pdPASS);
 
     retval = xTaskCreate(
         displayPattern,    // task function
@@ -81,10 +84,10 @@ int main() {
         4,           // priority
         ((void*)0)      // optional out: task handle
         );
-    configASSERT(retval==pdPASS);
+    assert(retval==pdPASS);
 
     gl_sequence_tasks_sem = xSemaphoreCreateBinary();
-    configASSERT(gl_sequence_tasks_sem != ((void*)0));
+    assert(gl_sequence_tasks_sem != ((void*)0));
 
     vTaskStartScheduler();
 }

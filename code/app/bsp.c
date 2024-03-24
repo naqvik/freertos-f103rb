@@ -9,7 +9,7 @@
 
 void NVIC_set_enable(uint32_t irq_num) {
     // the f103rb only supports IRQ# 0-68 (or 0-0x44)
-    //assert(irq_num < 68);
+    assert(irq_num < 68);
 
     // irq_num has a certain structure
     // 31 30 29 28  ...   9  8  7  6  5  4  3  2  1  0
