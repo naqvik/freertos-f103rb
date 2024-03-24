@@ -74,7 +74,7 @@ int main() {
         4,           // priority
         ((void*)0)      // optional out: task handle
         );
-    assert(retval!=pdPASS);
+    assert(retval==pdPASS);
 
     retval = xTaskCreate(
         displayPattern,    // task function
