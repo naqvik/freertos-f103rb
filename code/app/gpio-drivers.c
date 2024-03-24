@@ -37,27 +37,7 @@
    |    1 |    1 |     1 |     0 | x     | AFO, open-drain, 2MHz   |
    |    1 |    1 |     1 |     1 | x     | AFO, open-drain, 50MHz  |
    |------+------+-------+-------+-------+-------------------------|
-
 */
-
-/*  Added external LEDs as follows:
-
-                                  510
-    [D6, PB10]--[RedLED]--[2]-----vvvvv-----[1]---[GND]
-    [D7,  PA8]--[YlwLED]--[4]-----vvvvv-----[1]---[GND]
-    [D8,  PA9]--[GrnLED]--[6]-----vvvvv-----[1]---[GND]
-    [D10, PB6]--[BluLED]--[8]-----vvvvv-----[1]---[GND]
-
-    Resistor array, 9 RES
-    510 Ohm, 10SIP                    Internal structure
-    +-------------------------+    [1]-----+-----+--...---+
-    |  CTSK1949770101511P     |            |     |        |
-    |   1 2 3 4 5 6 7 8 9 10  |            \     \        \
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+            /     /        /
-        | | | | | | | | | |             510\  510\ ... 510\
-        1 2 3 4 5 6 7 8 9 10               |     |        |
-                                          [2]   [3]     [10]
- */
 
 void gpio_config_pin(GPIO_TypeDef* base, uint32_t pin, uint32_t bits4) {
     configASSERT(base != ((void*)0));

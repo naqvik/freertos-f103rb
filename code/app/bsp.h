@@ -1,5 +1,23 @@
 /**
    bsp.h: Interface to board Support Package for nucleo-f103rb
+
+   To the breadboard I added external LEDs as follows:
+
+                                  510
+    [D6, PB10]--[RedLED]--[2]-----vvvvv-----[1]---[GND]
+    [D7,  PA8]--[YlwLED]--[4]-----vvvvv-----[1]---[GND]
+    [D8,  PA9]--[GrnLED]--[6]-----vvvvv-----[1]---[GND]
+    [D10, PB6]--[BluLED]--[8]-----vvvvv-----[1]---[GND]
+
+    Resistor array, 9 RES
+    510 Ohm, 10SIP                    Internal structure
+    +-------------------------+    [1]-----+-----+--...---+
+    |  CTSK1949770101511P     |            |     |        |
+    |   1 2 3 4 5 6 7 8 9 10  |            \     \        \
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+            /     /        /
+        | | | | | | | | | |             510\  510\ ... 510\
+        1 2 3 4 5 6 7 8 9 10               |     |        |
+                                          [2]   [3]     [10]
 */
 #ifndef BSP_H
 #define BSP_H
