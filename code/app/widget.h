@@ -5,5 +5,6 @@
 
 void configureWidget(void);
 void runWidget(void);
+void configureButton(void);
 
 #endif // WIDGET_H

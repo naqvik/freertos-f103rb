@@ -6,6 +6,11 @@
 #include <stm32f10x.h>
 #include "bsp.h"
 
+// introduce global variable, shared between an ISR and a thread
+uint32_t gl_button_count = 0u;
+
+// prototype for external ISR function used here
+void EXTI15_10_IRQHandler(void);
 
 void NVIC_set_enable(uint32_t irq_num) {
     // the f103rb only supports IRQ# 0-68 (or 0-0x44)
@@ -28,4 +33,24 @@ void NVIC_set_enable(uint32_t irq_num) {
     __asm volatile("":::"memory");
     NVIC->ISER[idx] = 1u << bit_num;
     __asm volatile("":::"memory");
+}
+
+// Handle USER button interrupt.  The name for this is determined
+// by searching through the startup assembly code
+void EXTI15_10_IRQHandler(void) {
+    EXTI->PR |= (1u << 13);
+    gl_button_count++;
+}
+
+void NVIC_clr_pending(uint32_t irq_num) {
+    // the f103rb only supports IRQ# 0-68 (or 0-0x44)
+    assert(irq_num < 68);
+
+    // bits[:5] select the desired register
+    uint32_t idx = irq_num >> 5;
+
+    // bit[4:0] select the bit number in the desired register
+    uint32_t bit_num = irq_num & 0x1F; 
+
+    NVIC->ICPR[idx] = 1u << bit_num;
 }

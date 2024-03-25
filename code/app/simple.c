@@ -15,6 +15,7 @@
 // project includes
 #include "serial-io.h"
 #include "widget.h"
+#include "error.h"
 #include "gpio-drivers.h"       // FIXME: should not need this here
 
 #include "bsp.h"
@@ -60,12 +61,15 @@ static void displayPattern(void * blah) {
     configureWidget();
 
     while (1) {
+        printf("USER button count: %d\n", gl_button_count);
         runWidget();
         xSemaphoreGive(gl_sequence_tasks_sem);  // let other task run
     }
 }
 int main() {
     openUsart2();
+    configureButton();
+
     BaseType_t retval = xTaskCreate(
         blinkPA5,    // task function
         "blink PA5", // task name

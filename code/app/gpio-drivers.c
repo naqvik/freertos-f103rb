@@ -1,11 +1,8 @@
+#include <assert.h>
 #include <stdint.h>
 
 /* HW-specific includes (move to bsp area) */
 #include "stm32f10x.h"
-
-// FIXME: should not have to include freertos stuff here, just for the
-// assert
-#include "FreeRTOSConfig.h"
 
 #include "gpio-drivers.h"
 
@@ -40,9 +37,9 @@
 */
 
 void gpio_config_pin(GPIO_TypeDef* base, uint32_t pin, uint32_t bits4) {
-    configASSERT(base != ((void*)0));
-    configASSERT(pin < 16);
-    configASSERT(bits4 < 15);  // must be a valid pattern from table
+    assert(base != ((void*)0));
+    assert(pin < 16);
+    assert(bits4 < 15);  // must be a valid pattern from table
 
     Reg32 CR =  (pin >= 8) ? &base->CRH : &base->CRL;
     pin  = (pin >= 8) ? pin - 8 : pin;
@@ -52,7 +49,7 @@ void gpio_config_pin(GPIO_TypeDef* base, uint32_t pin, uint32_t bits4) {
 
 void gpio_pin_onoff(GPIO_TypeDef* base, uint32_t pin, bool on) {
     // Require: pin must be already configured as output
-    configASSERT(pin < 16);
+    assert(pin < 16);
 
     //uint32_t mask = 1u << pin;
     if (on) {

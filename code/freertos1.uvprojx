@@ -477,6 +477,11 @@
               <FileType>1</FileType>
               <FilePath>.\app\bsp.c</FilePath>
             </File>
+            <File>
+              <FileName>button-behaviour.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\app\button-behaviour.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
