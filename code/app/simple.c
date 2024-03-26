@@ -68,6 +68,7 @@ static void displayPattern(void * blah) {
 }
 int main() {
     openUsart2();
+//    printf("Version: %s", )
     configureButton();
 
     BaseType_t retval = xTaskCreate(
@@ -93,6 +94,7 @@ int main() {
     gl_sequence_tasks_sem = xSemaphoreCreateBinary();
     assert(gl_sequence_tasks_sem != ((void*)0));
 
+    printf("starting scheduler\n");
     vTaskStartScheduler();
 }
 
