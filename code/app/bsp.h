@@ -26,9 +26,19 @@
 #include <stdbool.h>
 #include <stm32f10x.h>
 
+// used for range-checking input parameters
+typedef enum { PortA, PortB, PortC, PortD, PortE
+} Port;
+typedef enum {
+    Pin0, Pin1, Pin2, Pin3, Pin4, Pin5, Pin6, Pin7,
+    Pin8, Pin9, Pin10, Pin11, Pin12, Pin13, Pin14, Pin15,
+} Pin;
+
 // NVIC-related functions
 void NVIC_set_enable(uint32_t irq_num);
 void NVIC_clr_pending(uint32_t irq_num);
+
+void afio_exticr_source(Port port, Pin pin);
 
 // Many of these function can be inlined
 

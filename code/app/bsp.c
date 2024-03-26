@@ -12,6 +12,15 @@ uint32_t gl_button_count = 0u;
 // prototype for external ISR function used here
 void EXTI15_10_IRQHandler(void);
 
+void afio_exticr_source(Port port, Pin pin) {
+    assert(0 <= port && port < 5);  // how to avoid magic number 5 here?
+    assert(0 <= pin && pin < 16);
+
+    uint32_t idx = pin / 4;  // was constrained to 0..15, now 0..3
+    uint32_t nybble = pin % 4;
+    AFIO->EXTICR[idx] = port << (nybble*4); // bits[idx] <- port;
+}
+
 void NVIC_set_enable(uint32_t irq_num) {
     // the f103rb only supports IRQ# 0-68 (or 0-0x44)
     assert(irq_num < 68);
