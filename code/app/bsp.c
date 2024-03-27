@@ -18,7 +18,7 @@ void afio_exticr_source(Port port, Pin pin) {
 
     uint32_t idx = pin / 4;  // was constrained to 0..15, now 0..3
     uint32_t nybble = pin % 4;
-    AFIO->EXTICR[idx] = port << (nybble*4); // bits[idx] <- port;
+    AFIO->EXTICR[idx] = (uint32_t)port << (nybble*4); // bits[idx] <- port;
 }
 
 void NVIC_set_enable(uint32_t irq_num) {
