@@ -102,7 +102,7 @@ int main() {
     vTaskStartScheduler();
 }
 
-
+/** Handle any configASSERT failure */
 void vAssertCalled(char const * const filename, int line_num) {
     uint32_t volatile ul = 0u;
 
