@@ -84,7 +84,7 @@ int main() {
 
     retval = xTaskCreate(
         displayPattern,    // task function
-        "blink PA8", // task name
+        "displ pattn", // task name
         250,          // stack in words
         ((void*)0),     // optional parameter
         4,           // priority
