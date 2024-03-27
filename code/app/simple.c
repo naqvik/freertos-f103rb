@@ -59,7 +59,8 @@ __attribute__((noreturn))
 static void displayPattern(void * blah) {
     (void) blah;
 
-    configureWidget();
+    configureWidget();          // sequencing of four LEDs
+    configureButton();          // install ISR, count button presses
 
     while (1) {
         printf("USER button count: %d\n", gl_button_count);
@@ -70,7 +71,6 @@ static void displayPattern(void * blah) {
 int main() {
     openUsart2();
 //    printf("Version: %s", )
-    configureButton();
 
     BaseType_t retval = xTaskCreate(
         blinkPA5,    // task function
