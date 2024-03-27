@@ -39,4 +39,6 @@ void configureButton(void) {
     // EXTI15_10 (IRQ40 aka exception 56)
 
     NVIC_set_enable(40);
+
+    NVIC_SetPriority(40, 20);
 }

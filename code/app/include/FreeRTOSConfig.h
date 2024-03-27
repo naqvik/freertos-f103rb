@@ -53,7 +53,7 @@
 #define configIDLE_SHOULD_YIELD     1
 
 /* memory allocation related definitions */
-#define configTOTAL_HEAP_SIZE              ( ( size_t ) ( 2 * 1024 ) )
+#define configTOTAL_HEAP_SIZE              ( ( size_t ) ( 4 * 1024 ) )
 #define configSUPPORT_STATIC_ALLOCATION    0
 #define configSUPPORT_DYNAMIC_ALLOCATION   1
 

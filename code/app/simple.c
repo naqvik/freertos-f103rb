@@ -75,7 +75,7 @@ int main() {
     BaseType_t retval = xTaskCreate(
         blinkPA5,    // task function
         "blink PA5", // task name
-        50,          // stack in words
+        250,          // stack in words
         ((void*)0),     // optional parameter
         4,           // priority
         ((void*)0)      // optional out: task handle
@@ -85,7 +85,7 @@ int main() {
     retval = xTaskCreate(
         displayPattern,    // task function
         "blink PA8", // task name
-        50,          // stack in words
+        250,          // stack in words
         ((void*)0),     // optional parameter
         4,           // priority
         ((void*)0)      // optional out: task handle
