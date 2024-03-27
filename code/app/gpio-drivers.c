@@ -4,6 +4,7 @@
 /* HW-specific includes (move to bsp area) */
 #include "stm32f10x.h"
 
+#include "bsp.h"
 #include "gpio-drivers.h"
 
 /*
@@ -36,7 +37,7 @@
    |------+------+-------+-------+-------+-------------------------|
 */
 
-void gpio_config_pin(GPIO_TypeDef* base, uint32_t pin, uint32_t bits4) {
+void gpio_config_pin(GPIO_TypeDef* base, Pin pin, uint32_t bits4) {
     assert(base != ((void*)0));
     assert(pin < 16);
     assert(bits4 < 15);  // must be a valid pattern from table

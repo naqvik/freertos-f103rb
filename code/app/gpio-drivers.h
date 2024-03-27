@@ -6,10 +6,12 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <assert.h>
 #include <stm32f10x.h>
+#include "bsp.h"
 
 typedef uint32_t volatile * const Reg32;
-void gpio_config_pin(GPIO_TypeDef* base, uint32_t pin, uint32_t bits4);
+void gpio_config_pin(GPIO_TypeDef* base, Pin pin, uint32_t bits4);
 void gpio_pin_onoff(GPIO_TypeDef* base, uint32_t pin, bool on);
 
 

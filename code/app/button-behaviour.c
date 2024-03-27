@@ -25,20 +25,30 @@ void configureButton(void) {
     
     // Pin PC13 should be configured as input, floating.
     // This corresponds to binary 0100, or 0x4
-    gpio_config_pin(GPIOC, 13, 0x4);
+
+    gpio_config_pin(GPIOC, Pin13, 0x4);
+
+    // enable trigger on falling edge
+    exti_falling_edge_trig(Pin13, true);
+
+    // select the interrupt source to be pin 13 of port C
+    // that is AFIO_EXTICR[3] nybble 1 must be set to 0x2
+
+    //AFIO->EXTICR[3] |= (0x2u << 4); // bits[7:4] <- 0010
+    afio_exticr_source(PortC, Pin13);
 
     // Since this is an external device (on a pin13), we'll need to
     // unmask interrupt EXTI 13.
-    exti_unmask(13, true);
-
-    // enable trigger on falling edge
-    exti_falling_edge_trig(13, true);
+    exti_unmask(Pin13, true);
 
     // enable the associated interrupt on the NVIC.  EXTI 13 falls in
-    // the range EXTI 15-10, all of which are mapped to the IRQ:
+    // the range EXTI 15-10, all of which are mapped to the IRQ 40
     // EXTI15_10 (IRQ40 aka exception 56)
 
-    NVIC_set_enable(40);
+    // kjn
+    // NVIC_set_enable(40);
+    // CMSIS
+    NVIC_EnableIRQ(40);
 
     NVIC_SetPriority(40, 20);
 }
