@@ -40,6 +40,7 @@ void runWidget() {
         {GPIOB, 6, 0},   // turn off PB4 LED
     };
 
+    // FIXME: race condition in call to fputs/fgets
     printf("Press any key to initiate one cycle: ");
     int c = fgetc(stdin);
     if (isprint(c))

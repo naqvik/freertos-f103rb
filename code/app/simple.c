@@ -53,7 +53,6 @@ static void blinkPA5(void * blah) {
         gpio_pin_onoff(GPIOA, 5, 0);
         vTaskDelay(100);
     }
-    //return 0;
 }
 __attribute__((noreturn))
 static void displayPattern(void * blah) {
@@ -63,6 +62,8 @@ static void displayPattern(void * blah) {
     configureButton();          // install ISR, count button presses
 
     while (1) {
+        // FIXME: race condition in call to fputs, and
+        //  when accessing gl_button_count
         printf("USER button count: %d\n", gl_button_count);
         runWidget();
         xSemaphoreGive(gl_sequence_tasks_sem);  // let other task run
@@ -72,6 +73,8 @@ int main() {
     openUsart2();
 //    printf("Version: %s", )
 
+    // FIXME: for both blinkPA5 and displayPattern, investigate stack usage.
+    //   I fixed the stack overflow by just multiplying the size by 5.
     BaseType_t retval = xTaskCreate(
         blinkPA5,    // task function
         "blink PA5", // task name
