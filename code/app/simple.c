@@ -71,7 +71,7 @@ static void displayPattern(void * blah) {
 }
 int main() {
     openUsart2();
-//    printf("Version: %s", )
+    printf("Version: %s\n", GIT_COMMIT);
 
     // FIXME: for both blinkPA5 and displayPattern, investigate stack usage.
     //   I fixed the stack overflow by just multiplying the size by 5.
