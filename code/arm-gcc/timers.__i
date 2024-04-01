@@ -1,0 +1,9 @@
+-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c
+-fno-rtti -funsigned-char -fshort-enums -fshort-wchar
+-D__EVAL -D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ./app/include -I ./FreeRTOS-Kernel/include -I ./FreeRTOS-Kernel/portable/GCC/ARM_CM3 -Wno-old-style-cast -Wno-c++98-compat
+-I./RTE/Device/STM32F103RB
+-I./RTE/_Target_1
+-IC:/Users/naqvik/AppData/Local/Arm/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include
+-IC:/Users/naqvik/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.3.0/Device/Include
+-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F10X_MD -D_RTE_
+-o ./objects/timers.o -MD "FreeRTOS-Kernel/timers.c"
